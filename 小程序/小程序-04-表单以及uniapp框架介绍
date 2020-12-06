@@ -1,0 +1,92 @@
+#### 1.小程序中的表单
+
+```js
+<form bindsubmit="submit">
+  <view>
+    <label for="name">姓名</label>
+    <input id="name" name="username" />
+  </view>
+  <view>
+    <label for="pwd">密码</label>
+    <input id="pwd" password="{{true}}" name="password" />
+  </view>
+  <checkbox-group bindchange="change">
+    js:   <checkbox value="js"checked="{{true}}"/>
+    css:  <checkbox value="css" />
+    html: <checkbox value="html" />
+  </checkbox-group>
+  <button form-type="submit">提交</button>
+</form>
+
+```
+
+> 表单提交首先我们需要给button绑定form-type属性,其次给form标签绑定submit事件,注意单选框和多选框没有name属性
+
+
+
+* **js代码部分**
+
+```js
+// pages/day05/day05.js
+Page({
+  data: {
+    info: ['js']
+  },
+  submit (e) {
+    let obj = {
+      username: e.detail.value.username,
+      password: e.detail.value.password,
+      jn: this.data.info
+    };
+    console.log(obj);
+    // 在获取原本表单数据同时,通过简单的数据处理,拿到多选框中的数据,并糅合在一起,方便发起请求提交给后台
+  },
+  change (e) {
+    this.setData({
+      info: e.detail.value
+    })
+  }
+})
+```
+
+submit事件中的e.detail.value可以获取到input中的值,但是不可以获取到多选框组中的值,所以我们需要给多选框绑定一个change事件,在通过change事件拿到多选框中值得时候我们需要将其和之前获取到的input中的值进行一个合并的操作,从而将最终的值作为参数发送给后端
+
+
+
+
+
+
+
+#### 2.uni-app框架介绍
+
+> 创建项目:`vue create -p dcloudio/uni-preset-vue 项目名称`
+
+**在选择模板的时候选择默认的即可**
+
+* 运行发布
+
+  ```js
+  npm run dev:占位符
+  npm run build:占位符
+  ```
+
+占位符可以取值如下:
+
+| 值         | 平台         |
+| ---------- | ------------ |
+| h5         | H5           |
+| mp-alipay  | 支付宝小程序 |
+| mp-baidu   | 百度小程序   |
+| mp-weixin  | 微信小程序   |
+| mp-toutiao | 头条小程序   |
+| mp-qq      | qq 小程序    |
+
+例如微信小程序则运行指令`npm run dev:mp-weixin`
+
+编译后会生成一个dist目录,dist目录下有一个dev目录,dev目录下有一个mp-weixin文件夹,我们使用IDE来打开这个文件夹,方便后续的查看状态以及调试
+
+同时我们使用vscode打开src下的源码,我们在此进行编码操作
+
+
+
+`如果有一些不清楚的地方我们可以去查看老师上课的讲义以及笔记`
